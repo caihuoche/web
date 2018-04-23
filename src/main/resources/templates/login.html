@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="qrcode.js"></script>
+</head>
+<script>
+    function guid() {
+        function S4() {
+            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        }
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    }
+
+</script>
+<body>
+    <form action="/login1" method="post">
+        用户名:<input type="text" name="username">
+        密码:<input type="password" name="password">
+        <input type="submit" value="登录">
+        <input type="button"   id="qrlogin" value="二维码登录">
+
+    </form>
+
+    <input id="text" type="text"  style="width:80%" /><br />
+    <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+</body>
+<script>
+    var c;
+    var uuid;
+    function getResult(){
+        $.ajax({
+                   type:'get',
+                   url:'/check-qr-code?uuid='+uuid,
+                   async: true,
+
+                   success:function(json){
+                       console.log(json);
+                       if(json!=''){ //处理自己的业务
+                           alert("登录成功"+json);
+                           window.clearInterval(c);
+                       }
+                   }
+               });
+    }
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 100,
+        height : 100
+    });
+
+    function makeCode () {
+        window.clearInterval(c);
+        var elText = document.getElementById("text");
+
+        if (!elText.value) {
+            alert("Input a text");
+            elText.focus();
+            return;
+        }
+        uuid=guid();
+        elText.value=elText.value+"?uuid="+uuid;
+        qrcode.makeCode(elText.value+"?uuid="+uuid);
+        c = window.setInterval("getResult()",2000); //间隔多少秒去触发ajax
+
+    }
+
+    $("#qrlogin").
+    on("click", function () {
+        makeCode();
+    }).
+    on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            makeCode();
+        }
+    });
+
+
+
+
+</script>
+</html>

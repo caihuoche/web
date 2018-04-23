@@ -1,0 +1,8 @@
+security:
+  basic:
+    enabled: false
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
