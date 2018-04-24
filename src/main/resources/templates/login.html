@@ -7,6 +7,7 @@
     <script type="text/javascript" src="qrcode.js"></script>
 </head>
 <script>
+    // 生成唯一uuid
     function guid() {
         function S4() {
             return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -30,6 +31,7 @@
 <script>
     var c;
     var uuid;
+
     function getResult(){
         $.ajax({
                    type:'get',
@@ -50,6 +52,7 @@
         height : 100
     });
 
+    // 生成二维码
     function makeCode () {
         window.clearInterval(c);
         var elText = document.getElementById("text");
@@ -61,11 +64,14 @@
         }
         uuid=guid();
         elText.value=elText.value+"?uuid="+uuid;
+        // 生成二维码的扫描地址
         qrcode.makeCode(elText.value+"?uuid="+uuid);
+        // 轮询去检查后台是否有用户扫描
         c = window.setInterval("getResult()",2000); //间隔多少秒去触发ajax
 
     }
 
+    // 给按钮绑定生成二维码时间
     $("#qrlogin").
     on("click", function () {
         makeCode();

@@ -16,6 +16,11 @@ public class QrCodeController {
 
 	private static final Map<String, String> map = new HashMap<>();
 
+	/**
+	 *  前端轮询检测二维码是否被扫描
+	 * @param uuid
+	 * @return
+	 */
 	@GetMapping("/check-qr-code")
 	@ResponseBody
 	public String check(String uuid) {
@@ -28,6 +33,10 @@ public class QrCodeController {
 
 	}
 
+	/**
+	 *  用户扫描二维码调到这里
+	 * @param uuid
+	 */
 	@GetMapping("/qr-code-login")
 	public void qrLogin(String uuid) {
 		System.out.println("login    "+uuid);
