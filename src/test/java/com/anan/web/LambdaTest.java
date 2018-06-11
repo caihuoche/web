@@ -15,34 +15,34 @@ import org.junit.Test;
 public class LambdaTest {
 
 	@Test
-	public void t1(){
-		new Thread(()-> System.out.println(2)).start();
+	public void t1() {
+		new Thread(() -> System.out.println(2)).start();
 	}
 
 	@Test
-	public void t2(){
+	public void t2() {
 		List<String> features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
 		features.forEach(System.out::println);
 		List collect = features.stream().map(x -> {
 			System.out.println(x);
 			return x;
 		}).collect(Collectors.toList());
-		features.stream().map(x-> x+"111").forEach(System.out::println);
+		features.stream().map(x -> x + "111").forEach(System.out::println);
 	}
 
 	// 使用lambda表达式和函数式接口Predicate
 	@Test
-	public void t3(){
+	public void t3() {
 		List<String> languages = Arrays.asList("Java", "Scala", "C++", "Haskell", "Lisp");
 		languages.stream().filter(s -> s.startsWith("J")).forEach(System.out::println);
 	}
 
 	@Test
-	public  void t4(){
+	public void t4() {
 		List<String> features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
 
 		// 创建一个字符串列表，每个字符串长度大于2
-		List<String> filtered = features.stream().filter(x -> x.length()> 2).collect(Collectors.toList());
+		List<String> filtered = features.stream().filter(x -> x.length() > 2).collect(Collectors.toList());
 		System.out.printf("Original List : %s, filtered list : %s %n", features, filtered);
 
 		String collect = features.stream().collect(Collectors.joining(","));
@@ -50,11 +50,36 @@ public class LambdaTest {
 	}
 
 	@Test
-	public void t5(){
+	public void t5() {
 		List<String> features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
 		List<String> collect = features.stream().limit(3).collect(Collectors.toList());
 		System.out.println(collect);
 		List<String> collect1 = features.stream().sorted(Comparator.comparingInt(String::length)).collect(Collectors.toList());
 		System.out.println(collect1);
 	}
+
+	@Test
+	public void t6() {
+		int[] arr = {1, 2, 5, 7, 9, 10, 15, 19, 20, 45};
+		int a = 19;
+		int swap = swap(a, arr);
+
+	}
+
+	public int swap(int x, int[] arr) {
+		int low = 0;
+		int high = arr.length - 1;
+		while (low <= high) {
+			int middle = (low + high) / 2;
+			if (x == arr[middle]) {
+				return middle;
+			} else if (x < arr[middle]) {
+				high = middle - 1;
+			} else {
+				low = middle + 1;
+			}
+		}
+		return -1;
+	}
+
 }
